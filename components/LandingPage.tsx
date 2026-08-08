@@ -4,9 +4,9 @@ import SdgIcons from './SdgIcons';
 import concreteLabBg from '../src/assets/images/concrete_testing_lab_1785480247126.jpg';
 import rcptTestingImg from '../src/assets/images/rcpt_lab_clean_nologo_1785996116530.jpg';
 import consultancyImg from '../src/assets/images/consultancy_engineering_1785489929108.jpg';
-import labViewImg from '../src/assets/images/concrete_lab_wide_view_1786176604940.jpg';
-import drMeeraBeheraImg from '../src/assets/images/indian_female_professor_portrait_1786176727617.jpg';
-import drShantiniBokilImg from '../src/assets/images/indian_female_hod_portrait_1786176814401.jpg';
+import labViewImg from '../src/assets/images/labview.jpg';
+import drMeeraBeheraImg from '../src/assets/images/pic.jpg';
+import drShantiniBokilImg from '../src/assets/images/pd.jpg';
 
 interface LandingPageProps {
   onStartBooking: () => void;
