@@ -4,6 +4,9 @@ import SdgIcons from './SdgIcons';
 import concreteLabBg from '../src/assets/images/concrete_testing_lab_1785480247126.jpg';
 import rcptTestingImg from '../src/assets/images/rcpt_lab_clean_nologo_1785996116530.jpg';
 import consultancyImg from '../src/assets/images/consultancy_engineering_1785489929108.jpg';
+import labViewImg from '../src/assets/images/concrete_lab_wide_view_1786176604940.jpg';
+import drMeeraBeheraImg from '../src/assets/images/indian_female_professor_portrait_1786176727617.jpg';
+import drShantiniBokilImg from '../src/assets/images/indian_female_hod_portrait_1786176814401.jpg';
 
 interface LandingPageProps {
   onStartBooking: () => void;
@@ -102,8 +105,13 @@ const LandingPage: React.FC<LandingPageProps> = ({
              </p>
            </div>
         </div>
-        <div className="bg-gray-200 rounded-2xl h-64 md:h-80 min-h-[250px] bg-[url('https://images.unsplash.com/photo-1581094794329-cd8119608f84?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80')] bg-cover bg-center shadow-lg relative overflow-hidden group">
-            <div className="absolute inset-0 bg-black bg-opacity-20 group-hover:bg-opacity-10 transition-all duration-500"></div>
+        <div className="bg-slate-900 rounded-2xl h-64 md:h-80 min-h-[250px] shadow-lg relative overflow-hidden group border border-gray-100">
+            <img 
+              src={labViewImg} 
+              alt="Concrete Technology Laboratory View" 
+              className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" 
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-60 group-hover:opacity-40 transition-opacity duration-300"></div>
         </div>
       </section>
 
@@ -117,7 +125,7 @@ const LandingPage: React.FC<LandingPageProps> = ({
                     <div className="absolute inset-0 bg-blue-500 rounded-full scale-105 opacity-0 group-hover:opacity-20 transition-all"></div>
                     <div className="w-36 h-36 md:w-40 md:h-40 bg-gray-100 rounded-full overflow-hidden border-4 border-white shadow-lg relative z-10">
                          <img 
-                            src="https://admissions.mitwpu.edu.in/storage/faculty/1659521404_Shantini%20Bokil.jpg" 
+                            src={drShantiniBokilImg} 
                             alt={HOD.name}
                             className="w-full h-full object-cover"
                         />
@@ -143,7 +151,7 @@ const LandingPage: React.FC<LandingPageProps> = ({
                     <div className="absolute inset-0 bg-blue-500 rounded-full scale-105 opacity-0 group-hover:opacity-20 transition-all"></div>
                     <div className="w-36 h-36 md:w-40 md:h-40 bg-gray-100 rounded-full overflow-hidden border-4 border-white shadow-lg relative z-10">
                         <img 
-                            src="https://images.unsplash.com/photo-1577415124269-fc1140a69e91?q=80&w=300&auto=format&fit=crop" 
+                            src={drMeeraBeheraImg} 
                             alt={LAB_INCHARGE.name}
                             className="w-full h-full object-cover"
                         />
@@ -348,7 +356,6 @@ const LandingPage: React.FC<LandingPageProps> = ({
             {[
                 { id: 'ici', label: 'ICI', full: 'Indian Concrete Institute', color: 'text-red-600' },
                 { id: 'rilem', label: 'RILEM', full: 'RILEM', color: 'text-orange-500' },
-                { id: 'iitd', label: 'IIT Delhi', full: 'Indian Institute of Technology Delhi', color: 'text-blue-900' },
             ].map((org) => (
                 <div key={org.id} className="group flex flex-col items-center">
                     <div className="w-32 h-20 bg-white border border-gray-200 rounded-lg shadow-sm flex items-center justify-center p-2 transition-all duration-300 group-hover:shadow-md group-hover:scale-105">

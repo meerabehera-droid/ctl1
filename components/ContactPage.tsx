@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { LAB_INCHARGE } from '../constants';
+import drMeeraBeheraImg from '../src/assets/images/indian_female_professor_portrait_1786176727617.jpg';
 
 const ContactPage: React.FC = () => {
   const [formData, setFormData] = useState({
@@ -60,10 +61,12 @@ const ContactPage: React.FC = () => {
 
                     {/* Professor In-Charge Section */}
                     <div className="flex items-start space-x-4">
-                        <div className="p-2 bg-blue-800 rounded-lg shrink-0">
-                            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-blue-200" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                            </svg>
+                        <div className="w-14 h-14 rounded-full overflow-hidden border-2 border-blue-300 shrink-0 shadow-md">
+                            <img 
+                                src={drMeeraBeheraImg} 
+                                alt={LAB_INCHARGE.name}
+                                className="w-full h-full object-cover"
+                            />
                         </div>
                         <div>
                             <h3 className="font-semibold text-blue-200 uppercase tracking-wider text-sm mb-1">Professor In-Charge</h3>

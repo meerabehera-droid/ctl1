@@ -1,6 +1,8 @@
 
 import React from 'react';
 import rcptTestingImg from '../src/assets/images/rcpt_lab_clean_nologo_1785996116530.jpg';
+import drMeeraBeheraImg from '../src/assets/images/indian_female_professor_portrait_1786176727617.jpg';
+import { LAB_INCHARGE } from '../constants';
 
 interface ExperimentsPageProps {
   onBookSlot: () => void;
@@ -189,34 +191,26 @@ const ExperimentsPage: React.FC<ExperimentsPageProps> = ({ onBookSlot }) => {
                 </ul>
               </div>
             ))}
-
-            {/* Equipment Image Card - Spanning two slots next to the NDT section on large screens */}
-            <div className="flex flex-col h-full rounded-2xl overflow-hidden shadow-sm border border-gray-100 group relative min-h-[300px] lg:col-span-2">
-                <img 
-                    src={rcptTestingImg} 
-                    alt="RCPT Concrete Testing Machine" 
-                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent flex flex-col justify-end p-8 md:p-10">
-                    <p className="text-white font-extrabold text-2xl mb-2 tracking-tight">Advanced Testing Infrastructure</p>
-                    <p className="text-white/80 text-sm max-w-xl">
-                        Our facility features high-precision electronic Universal and Compression Testing Machines (2000 kN), 
-                        fully automated durability chambers, and digital ultrasonic pulse velocity testers for detailed material characterization.
-                    </p>
-                    <div className="flex gap-2 mt-4">
-                        <span className="bg-white/20 backdrop-blur-sm border border-white/30 px-3 py-1 rounded-full text-[10px] uppercase font-bold text-white tracking-widest">High Precision</span>
-                        <span className="bg-white/20 backdrop-blur-sm border border-white/30 px-3 py-1 rounded-full text-[10px] uppercase font-bold text-white tracking-widest">NABL Calibrated</span>
-                    </div>
-                </div>
-            </div>
           </div>
 
           <div className="mt-16 bg-blue-900 rounded-3xl p-8 md:p-12 text-center text-white relative overflow-hidden">
              <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/concrete-wall.png')] opacity-20"></div>
-             <div className="relative z-10">
-                <h3 className="text-2xl md:text-3xl font-bold mb-4">Need specific research assistance?</h3>
+             <div className="relative z-10 flex flex-col items-center">
+                <div className="mb-6 relative group">
+                  <div className="w-24 h-24 md:w-28 md:h-28 rounded-full overflow-hidden border-4 border-white/30 shadow-xl relative z-10 mx-auto">
+                    <img 
+                      src={drMeeraBeheraImg} 
+                      alt={LAB_INCHARGE.name} 
+                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                    />
+                  </div>
+                  <span className="inline-block mt-3 px-3 py-1 bg-blue-800/80 backdrop-blur-sm border border-blue-400/30 text-blue-200 text-xs font-bold rounded-full">
+                    {LAB_INCHARGE.name} (Professor In-Charge)
+                  </span>
+                </div>
+                <h3 className="text-2xl md:text-3xl font-bold mb-3">Need specific research assistance?</h3>
                 <p className="text-blue-100 mb-8 max-w-xl mx-auto">
-                  Our laboratory staff is available for guidance on specialized setups and custom research methodology beyond standard experiments.
+                  Under the guidance of {LAB_INCHARGE.name}, our laboratory team is available for guidance on specialized setups, custom testing procedures, and research methodologies beyond standard experiments.
                 </p>
                 <div className="flex flex-col sm:flex-row justify-center gap-4">
                     <button 
@@ -225,8 +219,8 @@ const ExperimentsPage: React.FC<ExperimentsPageProps> = ({ onBookSlot }) => {
                     >
                         Schedule Slot
                     </button>
-                    <a href="mailto:ctl@mitwpu.edu.in" className="bg-blue-800 border border-blue-400/30 text-white font-bold py-3 px-10 rounded-full shadow-lg hover:bg-blue-700 transition-transform hover:scale-105 flex items-center justify-center gap-2">
-                        Contact Lab
+                    <a href={`mailto:${LAB_INCHARGE.email}`} className="bg-blue-800 border border-blue-400/30 text-white font-bold py-3 px-10 rounded-full shadow-lg hover:bg-blue-700 transition-transform hover:scale-105 flex items-center justify-center gap-2">
+                        Contact Lab In-Charge
                     </a>
                 </div>
              </div>
