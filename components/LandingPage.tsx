@@ -121,16 +121,22 @@ const LandingPage: React.FC<LandingPageProps> = ({
         <div className="grid md:grid-cols-2 gap-10">
             {/* Program Director (HOD) */}
             <div className="bg-white p-8 rounded-3xl shadow-sm border border-blue-100 flex flex-col items-center text-center transition-all hover:shadow-xl group">
-                <div className="relative mb-6">
-                    <div className="absolute inset-0 bg-blue-500 rounded-full scale-105 opacity-0 group-hover:opacity-20 transition-all"></div>
-                    <div className="w-36 h-36 md:w-40 md:h-40 bg-gray-100 rounded-full overflow-hidden border-4 border-white shadow-lg relative z-10">
+                <a 
+                  href={HOD.website || "https://mitwpu.edu.in/faculty/shantini-aniruddha-bokil"} 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="relative mb-6 block cursor-pointer group/photo"
+                  title="View Dr. Shantini Bokil's Faculty Profile"
+                >
+                    <div className="absolute inset-0 bg-blue-600 rounded-full scale-105 opacity-0 group-hover/photo:opacity-25 transition-all"></div>
+                    <div className="w-36 h-36 md:w-40 md:h-40 bg-gray-100 rounded-full overflow-hidden border-4 border-white shadow-lg relative z-10 group-hover/photo:border-blue-500 transition-all">
                          <img 
                             src={drShantiniBokilImg} 
                             alt={HOD.name}
-                            className="w-full h-full object-cover"
+                            className="w-full h-full object-cover transition-transform duration-500 group-hover/photo:scale-110"
                         />
                     </div>
-                </div>
+                </a>
                 <div className="relative mb-6">
                     <svg className="absolute -top-4 -left-4 w-8 h-8 text-blue-100" fill="currentColor" viewBox="0 0 24 24">
                         <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.154c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z" />
@@ -139,24 +145,40 @@ const LandingPage: React.FC<LandingPageProps> = ({
                         "The Department of Civil Engineering takes pride in its state-of-the-art laboratories. The Concrete Tech Lab is instrumental in shaping the technical competencies of our students and supporting high-impact research."
                     </blockquote>
                 </div>
-                <div className="mt-auto pt-4 border-t border-gray-50 w-full">
-                    <h4 className="font-bold text-gray-900 text-lg">{HOD.name}</h4>
+                <div className="mt-auto pt-4 border-t border-gray-50 w-full flex flex-col items-center">
+                    <a 
+                      href={HOD.website || "https://mitwpu.edu.in/faculty/shantini-aniruddha-bokil"} 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-1.5 font-bold text-gray-900 hover:text-blue-600 text-lg transition-colors group/link"
+                    >
+                      <span>{HOD.name}</span>
+                      <svg className="w-4 h-4 text-blue-600 group-hover/link:translate-x-0.5 group-hover/link:-translate-y-0.5 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                      </svg>
+                    </a>
                     <p className="text-blue-600 font-bold text-sm uppercase tracking-widest mt-1">Program Director</p>
                 </div>
             </div>
 
              {/* Professor In Charge */}
              <div className="bg-white p-8 rounded-3xl shadow-sm border border-blue-100 flex flex-col items-center text-center transition-all hover:shadow-xl group">
-                <div className="relative mb-6">
-                    <div className="absolute inset-0 bg-blue-500 rounded-full scale-105 opacity-0 group-hover:opacity-20 transition-all"></div>
-                    <div className="w-36 h-36 md:w-40 md:h-40 bg-gray-100 rounded-full overflow-hidden border-4 border-white shadow-lg relative z-10">
+                <a 
+                  href={LAB_INCHARGE.website || "https://mitwpu.edu.in/faculty/meera-jeevanreddy-chintala"} 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="relative mb-6 block cursor-pointer group/photo"
+                  title="View Dr. Meera Reddy's Faculty Profile"
+                >
+                    <div className="absolute inset-0 bg-blue-600 rounded-full scale-105 opacity-0 group-hover/photo:opacity-25 transition-all"></div>
+                    <div className="w-36 h-36 md:w-40 md:h-40 bg-gray-100 rounded-full overflow-hidden border-4 border-white shadow-lg relative z-10 group-hover/photo:border-blue-500 transition-all">
                         <img 
                             src={drMeeraBeheraImg} 
                             alt={LAB_INCHARGE.name}
-                            className="w-full h-full object-cover"
+                            className="w-full h-full object-cover transition-transform duration-500 group-hover/photo:scale-110"
                         />
                     </div>
-                </div>
+                </a>
                 <div className="relative mb-6">
                     <svg className="absolute -top-4 -left-4 w-8 h-8 text-blue-100" fill="currentColor" viewBox="0 0 24 24">
                         <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.154c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z" />
@@ -165,8 +187,18 @@ const LandingPage: React.FC<LandingPageProps> = ({
                          "Welcome to the Concrete Technology Lab. Our goal is to foster a culture of inquiry and precision, encouraging students to develop sustainable infrastructure solutions."
                     </blockquote>
                 </div>
-                <div className="mt-auto pt-4 border-t border-gray-50 w-full">
-                    <h4 className="font-bold text-gray-900 text-lg">{LAB_INCHARGE.name}</h4>
+                <div className="mt-auto pt-4 border-t border-gray-50 w-full flex flex-col items-center">
+                    <a 
+                      href={LAB_INCHARGE.website || "https://mitwpu.edu.in/faculty/meera-jeevanreddy-chintala"} 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-1.5 font-bold text-gray-900 hover:text-blue-600 text-lg transition-colors group/link"
+                    >
+                      <span>{LAB_INCHARGE.name}</span>
+                      <svg className="w-4 h-4 text-blue-600 group-hover/link:translate-x-0.5 group-hover/link:-translate-y-0.5 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                      </svg>
+                    </a>
                     <p className="text-blue-600 font-bold text-sm uppercase tracking-widest mt-1">Professor In-Charge</p>
                 </div>
             </div>

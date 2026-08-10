@@ -61,16 +61,32 @@ const ContactPage: React.FC = () => {
 
                     {/* Professor In-Charge Section */}
                     <div className="flex items-start space-x-4">
-                        <div className="w-14 h-14 rounded-full overflow-hidden border-2 border-blue-300 shrink-0 shadow-md">
+                        <a 
+                            href={LAB_INCHARGE.website || "https://mitwpu.edu.in/faculty/meera-jeevanreddy-chintala"}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="w-14 h-14 rounded-full overflow-hidden border-2 border-blue-300 shrink-0 shadow-md hover:border-white transition-all hover:scale-105 block"
+                            title="View Dr. Meera Reddy's Faculty Profile"
+                        >
                             <img 
                                 src={drMeeraBeheraImg} 
                                 alt={LAB_INCHARGE.name}
                                 className="w-full h-full object-cover"
                             />
-                        </div>
+                        </a>
                         <div>
                             <h3 className="font-semibold text-blue-200 uppercase tracking-wider text-sm mb-1">Professor In-Charge</h3>
-                            <p className="text-lg font-bold text-white mb-1">{LAB_INCHARGE.name}</p>
+                            <a 
+                                href={LAB_INCHARGE.website || "https://mitwpu.edu.in/faculty/meera-jeevanreddy-chintala"}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="text-lg font-bold text-white hover:text-blue-200 transition-colors inline-flex items-center gap-1.5 mb-1"
+                            >
+                                <span>{LAB_INCHARGE.name}</span>
+                                <svg className="w-3.5 h-3.5 opacity-80" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                                </svg>
+                            </a>
                             <div className="text-blue-100 space-y-1 text-sm">
                                 <p className="flex items-center gap-2">
                                     <svg className="w-4 h-4 opacity-70" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>

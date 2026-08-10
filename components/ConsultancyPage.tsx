@@ -125,18 +125,34 @@ const ConsultancyPage: React.FC<ConsultancyPageProps> = ({ onBookSlot }) => {
           {/* Consultancy Contact Section */}
           <div ref={contactRef} className="pt-12 border-t border-gray-100">
             <div className="bg-green-50 rounded-3xl p-8 md:p-12 flex flex-col md:flex-row items-center gap-10">
-                <div className="w-48 h-48 rounded-2xl overflow-hidden shadow-xl border-4 border-white shrink-0">
+                <a 
+                    href={LAB_INCHARGE.website || "https://mitwpu.edu.in/faculty/meera-jeevanreddy-chintala"}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="w-48 h-48 rounded-2xl overflow-hidden shadow-xl border-4 border-white shrink-0 hover:border-green-400 transition-all hover:scale-105 block group"
+                    title="View Dr. Meera Reddy's Faculty Profile"
+                >
                     <img 
                         src={drMeeraBeheraImg}  
                         alt={LAB_INCHARGE.name}
-                        className="w-full h-full object-cover"
+                        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                     />
-                </div>
+                </a>
                 <div className="flex-1 text-center md:text-left">
                     <span className="inline-block px-4 py-1 bg-green-600 text-white text-xs font-bold uppercase tracking-widest rounded-full mb-4">
                         Contact Lab In-charge
                     </span>
-                    <h3 className="text-3xl font-extrabold text-gray-900 mb-2">{LAB_INCHARGE.name}</h3>
+                    <a 
+                        href={LAB_INCHARGE.website || "https://mitwpu.edu.in/faculty/meera-jeevanreddy-chintala"}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-3xl font-extrabold text-gray-900 hover:text-green-700 transition-colors flex items-center justify-center md:justify-start gap-2 mb-2 group/title"
+                    >
+                        <span>{LAB_INCHARGE.name}</span>
+                        <svg className="w-5 h-5 text-green-600 group-hover/title:translate-x-0.5 group-hover/title:-translate-y-0.5 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                        </svg>
+                    </a>
                     <p className="text-green-700 font-bold mb-6">Professor In-Charge, Concrete Technology Laboratory</p>
                     
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">

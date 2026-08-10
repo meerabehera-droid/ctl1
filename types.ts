@@ -38,4 +38,5 @@ export enum ApprovalStatus {
 export interface Approver {
   name: string;
   email: string;
+  website?: string;
 }

@@ -2,7 +2,7 @@
 import type { Approver } from './types';
 
 export const SUPERVISORS: Approver[] = [
-    { name: "Prof. (Dr.) Shantini Bokil", email: "shantini.bokil@mitwpu.edu.in" },
+    { name: "Prof. (Dr.) Shantini Bokil", email: "shantini.bokil@mitwpu.edu.in", website: "https://mitwpu.edu.in/faculty/shantini-aniruddha-bokil" },
     { name: "Prof. (Dr.) Shubhangi Shekokar", email: "shubhangi.shekokar@mitwpu.edu.in" },
     { name: "Prof. (Dr.) Vishakha Sakhare", email: "vishakha.sakhare@mitwpu.edu.in" },
     { name: "Prof. V. H. Agarkar", email: "vrunda.agarkar@mitwpu.edu.in" },
@@ -34,10 +34,10 @@ export const SUPERVISORS: Approver[] = [
     { name: "Prof. (Dr.) Shahbaz Dandin", email: "shahbaz.dandin@mitwpu.edu.in" },
     { name: "Prof. (Dr.) Jagruti Patil", email: "jagruti.patil@mitwpu.edu.in" },
     { name: "Prof. (Dr.) Akshay Bura", email: "akshay.bura@mitwpu.edu.in" },
-    { name: "Prof. (Dr.) Meera Reddy", email: "meera.behera@mitwpu.edu.in" },
+    { name: "Prof. (Dr.) Meera Reddy", email: "meera.behera@mitwpu.edu.in", website: "https://mitwpu.edu.in/faculty/meera-jeevanreddy-chintala" },
     { name: "Prof. (Dr.) Dattatreya Tripathy", email: "dattatreya.tripathy@mitwpu.edu.in" },
     { name: "Prof. (Dr.) Manali Joshi", email: "manali.joshi@mitwpu.edu.in" },
 ];
 
-export const LAB_INCHARGE: Approver = { name: "Prof. (Dr.) Meera Reddy", email: "meera.behera@mitwpu.edu.in" };
-export const HOD: Approver = { name: "Prof. (Dr.) Shantini Bokil", email: "pd.civil@mitwpu.edu.in" };
+export const LAB_INCHARGE: Approver = { name: "Prof. (Dr.) Meera Reddy", email: "meera.behera@mitwpu.edu.in", website: "https://mitwpu.edu.in/faculty/meera-jeevanreddy-chintala" };
+export const HOD: Approver = { name: "Prof. (Dr.) Shantini Bokil", email: "pd.civil@mitwpu.edu.in", website: "https://mitwpu.edu.in/faculty/shantini-aniruddha-bokil" };
