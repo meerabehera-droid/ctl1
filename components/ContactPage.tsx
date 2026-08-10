@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { LAB_INCHARGE } from '../constants';
-import drMeeraBeheraImg from '../src/assets/images/indian_female_professor_portrait_1786176727617.jpg';
+import drMeeraBeheraImg from '../src/assets/images/regenerated_image_1786338889236.jpg';
 
 const ContactPage: React.FC = () => {
   const [formData, setFormData] = useState({

@@ -1,7 +1,6 @@
 
 import React from 'react';
 import rcptTestingImg from '../src/assets/images/rcpt_lab_clean_nologo_1785996116530.jpg';
-import drMeeraBeheraImg from '../src/assets/images/indian_female_professor_portrait_1786176727617.jpg';
 import { LAB_INCHARGE } from '../constants';
 
 interface ExperimentsPageProps {
@@ -196,18 +195,6 @@ const ExperimentsPage: React.FC<ExperimentsPageProps> = ({ onBookSlot }) => {
           <div className="mt-16 bg-blue-900 rounded-3xl p-8 md:p-12 text-center text-white relative overflow-hidden">
              <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/concrete-wall.png')] opacity-20"></div>
              <div className="relative z-10 flex flex-col items-center">
-                <div className="mb-6 relative group">
-                  <div className="w-24 h-24 md:w-28 md:h-28 rounded-full overflow-hidden border-4 border-white/30 shadow-xl relative z-10 mx-auto">
-                    <img 
-                      src={drMeeraBeheraImg} 
-                      alt={LAB_INCHARGE.name} 
-                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-                    />
-                  </div>
-                  <span className="inline-block mt-3 px-3 py-1 bg-blue-800/80 backdrop-blur-sm border border-blue-400/30 text-blue-200 text-xs font-bold rounded-full">
-                    {LAB_INCHARGE.name} (Professor In-Charge)
-                  </span>
-                </div>
                 <h3 className="text-2xl md:text-3xl font-bold mb-3">Need specific research assistance?</h3>
                 <p className="text-blue-100 mb-8 max-w-xl mx-auto">
                   Under the guidance of {LAB_INCHARGE.name}, our laboratory team is available for guidance on specialized setups, custom testing procedures, and research methodologies beyond standard experiments.

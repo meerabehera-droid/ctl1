@@ -2,6 +2,7 @@
 import React, { useRef } from 'react';
 import { LAB_INCHARGE } from '../constants';
 import consultancyImg from '../src/assets/images/consultancy_engineering_1785489929108.jpg';
+import drMeeraBeheraImg from '../src/assets/images/pic1.jpg';
 
 interface ConsultancyPageProps {
   onBookSlot: () => void;
@@ -126,7 +127,7 @@ const ConsultancyPage: React.FC<ConsultancyPageProps> = ({ onBookSlot }) => {
             <div className="bg-green-50 rounded-3xl p-8 md:p-12 flex flex-col md:flex-row items-center gap-10">
                 <div className="w-48 h-48 rounded-2xl overflow-hidden shadow-xl border-4 border-white shrink-0">
                     <img 
-                        src="https://images.unsplash.com/photo-1577415124269-fc1140a69e91?q=80&w=400&auto=format&fit=crop" 
+                        src={drMeeraBeheraImg}  
                         alt={LAB_INCHARGE.name}
                         className="w-full h-full object-cover"
                     />

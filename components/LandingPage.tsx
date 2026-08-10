@@ -1,11 +1,11 @@
 import React from 'react';
 import { LAB_INCHARGE, HOD } from '../constants';
 import SdgIcons from './SdgIcons';
-import concreteLabBg from '../src/assets/images/concrete_testing_lab_1785480247126.jpg';
+import concreteLabBg from '../src/assets/images/labview.jpg';
 import rcptTestingImg from '../src/assets/images/rcpt_lab_clean_nologo_1785996116530.jpg';
 import consultancyImg from '../src/assets/images/consultancy_engineering_1785489929108.jpg';
-import labViewImg from '../src/assets/images/labview.jpg';
-import drMeeraBeheraImg from '../src/assets/images/pic.jpg';
+import labViewImg from '../src/assets/images/labpic1.jpg';
+import drMeeraBeheraImg from '../src/assets/images/pic1.jpg';
 import drShantiniBokilImg from '../src/assets/images/pd.jpg';
 
 interface LandingPageProps {

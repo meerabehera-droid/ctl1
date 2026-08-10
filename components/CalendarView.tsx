@@ -10,6 +10,8 @@ interface TimeSlot {
 // Define the schedule for each day based on user requirements
 const schedule: { [day: string]: TimeSlot[] } = {
   Monday: [
+    { time: '08:00 AM - 10:00 AM', type: 'Casting' },
+    { time: '08:00 AM - 10:00 AM', type: 'Testing' },
     { time: '10:00 AM - 12:00 PM', type: 'Casting' },
     { time: '10:00 AM - 12:00 PM', type: 'Testing' },
     { time: '01:00 PM - 03:00 PM', type: 'Casting' },
@@ -19,6 +21,8 @@ const schedule: { [day: string]: TimeSlot[] } = {
     { time: '05:00 PM - 10:00 AM', type: 'Overnight' },
   ],
   Tuesday: [
+    { time: '08:00 AM - 10:00 AM', type: 'Casting' },
+    { time: '08:00 AM - 10:00 AM', type: 'Testing' },
     { time: '10:00 AM - 12:00 PM', type: 'Casting' },
     { time: '10:00 AM - 12:00 PM', type: 'Testing' },
     { time: '01:00 PM - 03:00 PM', type: 'Casting' },
@@ -28,6 +32,8 @@ const schedule: { [day: string]: TimeSlot[] } = {
     { time: '05:00 PM - 10:00 AM', type: 'Overnight' },
   ],
   Wednesday: [
+    { time: '08:00 AM - 10:00 AM', type: 'Casting' },
+    { time: '08:00 AM - 10:00 AM', type: 'Testing' },
     { time: '10:00 AM - 12:00 PM', type: 'Casting' },
     { time: '10:00 AM - 12:00 PM', type: 'Testing' },
     { time: '01:00 PM - 03:00 PM', type: 'Casting' },
@@ -37,6 +43,8 @@ const schedule: { [day: string]: TimeSlot[] } = {
     { time: '05:00 PM - 10:00 AM', type: 'Overnight' },
   ],
   Thursday: [
+    { time: '08:00 AM - 10:00 AM', type: 'Casting' },
+    { time: '08:00 AM - 10:00 AM', type: 'Testing' },
     { time: '10:00 AM - 12:00 PM', type: 'Casting' },
     { time: '10:00 AM - 12:00 PM', type: 'Testing' },
     { time: '01:00 PM - 03:00 PM', type: 'Casting' },
@@ -46,6 +54,8 @@ const schedule: { [day: string]: TimeSlot[] } = {
     { time: '05:00 PM - 10:00 AM', type: 'Overnight' },
   ],
   Friday: [
+    { time: '08:00 AM - 10:00 AM', type: 'Casting' },
+    { time: '08:00 AM - 10:00 AM', type: 'Testing' },
     { time: '10:00 AM - 12:00 PM', type: 'Casting' },
     { time: '10:00 AM - 12:00 PM', type: 'Testing' },
     { time: '01:00 PM - 03:00 PM', type: 'Casting' },
