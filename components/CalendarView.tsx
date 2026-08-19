@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import type { SelectedSlot } from '../types';
 
 // Define the structure for a time slot
@@ -115,6 +116,21 @@ const SlotSelectionModal: React.FC<{
     
     const [selectedLocalSlots, setSelectedLocalSlots] = useState<SelectedSlot[]>([]);
 
+    useEffect(() => {
+        const handleKeyDown = (e: KeyboardEvent) => {
+            if (e.key === 'Escape') {
+                onClose();
+            }
+        };
+        document.addEventListener('keydown', handleKeyDown);
+        const originalOverflow = document.body.style.overflow;
+        document.body.style.overflow = 'hidden';
+        return () => {
+            document.removeEventListener('keydown', handleKeyDown);
+            document.body.style.overflow = originalOverflow;
+        };
+    }, [onClose]);
+
     const handleSlotToggle = (slot: TimeSlot) => {
         const slotData: SelectedSlot = {
             day: dayName,
@@ -137,18 +153,30 @@ const SlotSelectionModal: React.FC<{
         }
     };
 
-    return (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50" onClick={onClose}>
-            <div className="bg-white rounded-lg shadow-xl p-6 w-full max-w-md mx-4" onClick={(e) => e.stopPropagation()}>
-                <div className="flex justify-between items-center mb-4 border-b pb-2">
+    const modalContent = (
+        <div 
+            className="fixed inset-0 bg-slate-950/70 backdrop-blur-sm flex items-center justify-center z-[99999] p-4 overflow-y-auto" 
+            onClick={onClose}
+        >
+            <div 
+                className="bg-white rounded-2xl shadow-2xl p-6 w-full max-w-md mx-auto my-auto relative z-10 border border-gray-100 animate-fade-in" 
+                onClick={(e) => e.stopPropagation()}
+            >
+                <div className="flex justify-between items-center mb-4 border-b border-gray-100 pb-3">
                     <div>
-                        <h3 className="text-xl font-bold text-gray-800">{dayName}, {formattedDate}</h3>
-                        <p className="text-xs text-gray-500">Select consecutive slots if needed</p>
+                        <h3 className="text-xl font-bold text-gray-900">{dayName}, {formattedDate}</h3>
+                        <p className="text-xs text-gray-500 font-medium mt-0.5">Select consecutive slots if needed</p>
                     </div>
-                    <button onClick={onClose} className="text-gray-400 hover:text-gray-800 text-3xl leading-none">&times;</button>
+                    <button 
+                        onClick={onClose} 
+                        className="text-gray-400 hover:text-gray-700 hover:bg-gray-100 rounded-full w-8 h-8 flex items-center justify-center transition-colors text-2xl leading-none"
+                        aria-label="Close modal"
+                    >
+                        &times;
+                    </button>
                 </div>
                 
-                <div className="space-y-3 max-h-80 overflow-y-auto pr-2 mb-4">
+                <div className="space-y-2.5 max-h-[60vh] overflow-y-auto pr-1 mb-5">
                     {slots.map((slot, index) => {
                         const slotData: SelectedSlot = {
                             day: dayName,
@@ -161,23 +189,23 @@ const SlotSelectionModal: React.FC<{
                         const isSelected = selectedLocalSlots.some(s => s.time === slot.time && s.type === slot.type);
                         const colorConfig = slotColors[slot.type];
                         
-                        let className = `w-full text-left p-3 rounded-lg border-l-4 transition-colors duration-200 flex justify-between items-center `;
+                        let className = `w-full text-left p-3.5 rounded-xl border-l-4 transition-all duration-200 flex justify-between items-center shadow-sm `;
                         if (isBooked) {
-                            className += "bg-gray-200 border-gray-400 text-gray-500 cursor-not-allowed";
+                            className += "bg-gray-100 border-gray-400 text-gray-400 cursor-not-allowed opacity-75";
                         } else if (isSelected) {
-                            className += colorConfig.selected;
+                            className += `${colorConfig.selected} shadow-md scale-[1.01]`;
                         } else {
-                            className += `${colorConfig.base} ${colorConfig.hover}`;
+                            className += `${colorConfig.base} ${colorConfig.hover} hover:shadow`;
                         }
 
                         if (isBooked) {
                             return (
                                 <div key={index} className={className}>
                                     <div>
-                                        <p className="font-semibold">{slot.type}</p>
-                                        <p className="text-sm font-bold line-through">{slot.time}</p>
+                                        <p className="font-bold text-sm">{slot.type}</p>
+                                        <p className="text-xs font-semibold line-through opacity-80">{slot.time}</p>
                                     </div>
-                                    <span className="text-xs font-bold uppercase">Booked</span>
+                                    <span className="text-[10px] font-extrabold uppercase px-2 py-0.5 bg-gray-200 text-gray-600 rounded">Booked</span>
                                 </div>
                             );
                         }
@@ -185,12 +213,12 @@ const SlotSelectionModal: React.FC<{
                         return (
                              <button key={index} onClick={() => handleSlotToggle(slot)} className={className}>
                                 <div>
-                                    <p className="font-semibold">{slot.type}</p>
-                                    <p className="text-sm">{slot.time}</p>
+                                    <p className="font-bold text-sm">{slot.type}</p>
+                                    <p className="text-xs font-medium">{slot.time}</p>
                                 </div>
                                 {isSelected && (
-                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 stroke-[2.5]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
                                     </svg>
                                 )}
                             </button>
@@ -198,12 +226,17 @@ const SlotSelectionModal: React.FC<{
                     })}
                 </div>
 
-                <div className="pt-2 border-t flex justify-end gap-3">
-                     <button onClick={onClose} className="px-4 py-2 text-gray-600 hover:bg-gray-100 rounded-lg">Cancel</button>
+                <div className="pt-3 border-t border-gray-100 flex justify-end gap-3">
+                     <button 
+                        onClick={onClose} 
+                        className="px-4 py-2.5 text-sm font-semibold text-gray-600 hover:bg-gray-100 rounded-xl transition-colors"
+                     >
+                        Cancel
+                     </button>
                      <button 
                         onClick={() => onConfirm(selectedLocalSlots)} 
                         disabled={selectedLocalSlots.length === 0}
-                        className="px-4 py-2 bg-blue-600 text-white font-bold rounded-lg hover:bg-blue-700 disabled:bg-gray-300 disabled:cursor-not-allowed"
+                        className="px-5 py-2.5 text-sm bg-blue-600 text-white font-bold rounded-xl hover:bg-blue-700 disabled:bg-gray-200 disabled:text-gray-400 disabled:cursor-not-allowed shadow-md transition-all"
                     >
                         Confirm Selection ({selectedLocalSlots.length})
                      </button>
@@ -211,6 +244,8 @@ const SlotSelectionModal: React.FC<{
             </div>
         </div>
     );
+
+    return typeof document !== 'undefined' ? createPortal(modalContent, document.body) : modalContent;
 };
 
 

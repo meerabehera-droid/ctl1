@@ -28,7 +28,7 @@ const Header: React.FC<HeaderProps> = ({ onHomeClick }) => {
             DR VISHWANATH KARAD MIT WORLD PEACE UNIVERSITY
           </p>
           <p className="font-bold text-blue-300/90 text-[10px] sm:text-xs tracking-[0.3em] uppercase">
-            PUNE, INDIA
+            PUNE, BHARAT
           </p>
         </div>
         

@@ -54,7 +54,7 @@ const ContactPage: React.FC = () => {
                                 VK-012, Vivekanand Building,<br/>
                                 Department of Civil Engineering,<br/>
                                 Dr. Vishwanath Karad MIT World Peace University,<br/>
-                                Kothrud, Pune - 411038, India
+                                Kothrud, Pune - 411038, Bharat
                             </p>
                         </div>
                     </div>

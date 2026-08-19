@@ -45,7 +45,7 @@ const LandingPage: React.FC<LandingPageProps> = ({
               DR VISHWANATH KARAD MIT WORLD PEACE UNIVERSITY
             </p>
             <p className="text-xs sm:text-sm font-bold text-blue-300/90 tracking-[0.3em] uppercase mb-6">
-              PUNE, INDIA
+              PUNE, BHARAT
             </p>
             
             <h1 className="text-4xl sm:text-6xl font-black tracking-tighter mb-4 leading-[1.1] drop-shadow-md">
