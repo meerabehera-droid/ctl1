@@ -1,4 +1,5 @@
 
+
 import React from 'react';
 import { FormData, ApprovalStatus, SelectedSlot } from '../types';
 import { LAB_INCHARGE, HOD } from '../constants';
@@ -9,8 +10,7 @@ import ClockIcon from './icons/ClockIcon';
 interface ApprovalStatusProps {
     formData: FormData & { selectedSlots: SelectedSlot[] };
     status: ApprovalStatus;
-    onApprove: (level: ApprovalStatus) => void;
-    onReject: () => void;
+    bookingId?: string | null;
     onReset: () => void;
 }
 
@@ -37,7 +37,7 @@ const ApprovalStep: React.FC<{ title: string; approver: string; isComplete: bool
     );
 };
 
-const ApprovalStatusDisplay: React.FC<ApprovalStatusProps> = ({ formData, status, onApprove, onReject, onReset }) => {
+const ApprovalStatusDisplay: React.FC<ApprovalStatusProps> = ({ formData, status, bookingId, onReset }) => {
     
     // Check if HOD approval is required if ANY selected slot is Overnight, Saturday, or Sunday OR if Consultant
     const isHodApprovalRequired = formData.selectedSlots.some(slot => 
@@ -49,8 +49,6 @@ const ApprovalStatusDisplay: React.FC<ApprovalStatusProps> = ({ formData, status
     const renderApprovalControls = () => {
         if (status === ApprovalStatus.REJECTED || status === ApprovalStatus.APPROVED) return null;
 
-        const handleApprove = () => onApprove(status);
-        
         let approverRole = '';
         if (status === ApprovalStatus.PENDING_SUPERVISOR) approverRole = `Supervisor (${formData.supervisor})`;
         else if (status === ApprovalStatus.PENDING_INCHARGE) approverRole = `Lab In-charge (${LAB_INCHARGE.name})`;
@@ -58,12 +56,17 @@ const ApprovalStatusDisplay: React.FC<ApprovalStatusProps> = ({ formData, status
 
         return (
             <div className="mt-6 p-4 bg-blue-50 border-l-4 border-blue-500 rounded-r-lg">
-                <h3 className="text-lg font-semibold text-gray-800">Approval Simulation</h3>
-                <p className="text-sm text-gray-600 mb-4">Simulating approval for: <span className="font-bold">{approverRole}</span></p>
-                <div className="flex space-x-4">
-                    <button onClick={handleApprove} className="bg-green-600 text-white font-bold py-2 px-4 rounded-md hover:bg-green-700">Approve</button>
-                    <button onClick={onReject} className="bg-red-600 text-white font-bold py-2 px-4 rounded-md hover:bg-red-700">Reject</button>
-                </div>
+                <h3 className="text-lg font-semibold text-gray-800">Awaiting approval</h3>
+                <p className="text-sm text-gray-600 mt-1">
+                    An email has been sent to <span className="font-bold">{approverRole}</span>. You will be
+                    notified by email as soon as a decision is made. This page updates on its own.
+                </p>
+                {bookingId && (
+                    <p className="text-xs text-gray-500 mt-3">
+                        Reference number: <span className="font-mono font-bold">{bookingId}</span> — quote this
+                        in any query about your booking.
+                    </p>
+                )}
             </div>
         );
     };

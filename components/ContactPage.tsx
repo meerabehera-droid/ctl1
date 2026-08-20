@@ -13,11 +13,21 @@ const ContactPage: React.FC = () => {
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
+    if (name === 'contact') {
+      const digitsOnly = value.replace(/\D/g, '').slice(0, 10);
+      setFormData(prev => ({ ...prev, contact: digitsOnly }));
+      return;
+    }
     setFormData(prev => ({ ...prev, [name]: value }));
   };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    const contactDigits = (formData.contact || '').replace(/\D/g, '');
+    if (contactDigits.length !== 10) {
+      alert("Please enter a valid 10-digit contact number.");
+      return;
+    }
     setIsSubmitting(true);
     
     // Simulate email sending
@@ -152,17 +162,25 @@ const ContactPage: React.FC = () => {
                 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                     <div>
-                        <label htmlFor="contact" className="block text-sm font-medium text-gray-700 mb-1">Contact Number</label>
+                        <label htmlFor="contact" className="block text-sm font-medium text-gray-700 mb-1">
+                            Contact Number <span className="text-red-500 font-bold">*</span>
+                        </label>
                         <input 
                             type="tel" 
                             id="contact" 
                             name="contact" 
+                            inputMode="numeric"
+                            pattern="[0-9]{10}"
+                            minLength={10}
+                            maxLength={10}
                             required
                             value={formData.contact}
                             onChange={handleChange}
                             className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors bg-white"
-                            placeholder="+91 98765 43210"
+                            placeholder="10-digit mobile number"
+                            title="Please enter a valid 10-digit mobile number"
                         />
+                        <p className="text-[11px] text-gray-500 mt-1">Must be exactly 10 digits</p>
                     </div>
                      <div>
                         <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">Email Address</label>

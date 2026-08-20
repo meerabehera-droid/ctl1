@@ -32,6 +32,11 @@ const Form: React.FC<FormProps> = ({
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
         const { name, value } = e.target;
+        if (name === 'contact') {
+            const digitsOnly = value.replace(/\D/g, '').slice(0, 10);
+            setFormData(prev => ({ ...prev, contact: digitsOnly }));
+            return;
+        }
         setFormData(prev => ({ ...prev, [name]: value }));
     };
 
@@ -60,6 +65,11 @@ const Form: React.FC<FormProps> = ({
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
+        const contactDigits = (formData.contact || '').replace(/\D/g, '');
+        if (contactDigits.length !== 10) {
+            alert("Contact number is mandatory and must be exactly 10 digits.");
+            return;
+        }
         if (!hasReadSafety || !hasReadTerms) {
             alert("Please read both the Safety Instructions and Terms and Conditions before proceeding.");
             return;
@@ -108,7 +118,27 @@ const Form: React.FC<FormProps> = ({
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8">
                     {renderInput("1. Name", "name", "text")}
                     {renderInput("2. PRN / Employee No.", "prn", "text")}
-                    {renderInput("3. Contact No.", "contact", "tel")}
+                    <div className="mb-4">
+                        <label htmlFor="contact" className="block text-sm font-medium text-gray-700 mb-1">
+                            3. Contact No. <span className="text-red-500 font-bold">*</span>
+                        </label>
+                        <input 
+                            type="tel" 
+                            id="contact" 
+                            name="contact" 
+                            inputMode="numeric"
+                            pattern="[0-9]{10}"
+                            minLength={10}
+                            maxLength={10}
+                            value={formData.contact || ''} 
+                            onChange={handleChange} 
+                            required 
+                            placeholder="Enter 10-digit mobile number"
+                            title="Please enter a valid 10-digit mobile number"
+                            className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                        />
+                        <p className="text-xs text-gray-500 mt-1">Must be exactly 10 digits (e.g., 9876543210)</p>
+                    </div>
                     {renderInput("4. Requester E-Mail ID", "email", "email")}
                     <div className="mb-4">
                         <label htmlFor="supervisor" className="block text-sm font-medium text-gray-700 mb-1">5. Name of the supervisor/ PI/ Co-PI</label>

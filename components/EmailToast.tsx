@@ -31,7 +31,7 @@ const EmailToast: React.FC<EmailToastProps> = ({ emails, onDismiss }) => {
           <div className="bg-blue-50 px-4 py-2 border-b flex justify-between items-center">
             <div className="flex items-center gap-2">
               <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
-              <span className="text-xs font-bold text-blue-800 uppercase tracking-wider">Email Sent (Trial Simulation)</span>
+              <span className="text-xs font-bold text-blue-800 uppercase tracking-wider">Email Sent</span>
             </div>
             <button 
               onClick={() => onDismiss(email.id)}

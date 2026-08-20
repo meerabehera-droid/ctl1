@@ -16,6 +16,16 @@ import SafetyPage from './components/SafetyPage';
 import TermsPage from './components/TermsPage';
 import PublicationsPage from './components/PublicationsPage';
 import EmailToast, { EmailData } from './components/EmailToast';
+import { submitBooking, getBookingStatus, fetchBookedSlotKeys, isLive, type StatusCode } from './services/bookingService';
+
+// Maps the backend's status code onto the local enum
+const CODE_TO_STATUS: Record<StatusCode, ApprovalStatus> = {
+    PENDING_SUPERVISOR: ApprovalStatus.PENDING_SUPERVISOR,
+    PENDING_INCHARGE: ApprovalStatus.PENDING_INCHARGE,
+    PENDING_HOD: ApprovalStatus.PENDING_HOD,
+    APPROVED: ApprovalStatus.APPROVED,
+    REJECTED: ApprovalStatus.REJECTED,
+};
 
 // Helper to create a unique identifier for a slot
 const getSlotKey = (slot: SelectedSlot): string => {
@@ -97,97 +107,47 @@ const App: React.FC = () => {
     const [hasReadSafety, setHasReadSafety] = useState(false);
     const [hasReadTerms, setHasReadTerms] = useState(false);
 
-    // Email Simulation State
     const [sentEmails, setSentEmails] = useState<EmailData[]>([]);
+    const [bookingId, setBookingId] = useState<string | null>(null);
+    const [submitError, setSubmitError] = useState<string | null>(null);
 
     const handleDismissEmail = (id: string) => {
         setSentEmails(prev => prev.filter(e => e.id !== id));
     };
 
-    const handleReject = useCallback(() => {
-        const currentData = formDataRef.current;
-        if (!currentData) return;
-        setApprovalStatus(ApprovalStatus.REJECTED);
-        addSimulatedEmail(
-            currentData.email,
-            `REJECTED: Lab Booking Request`,
-            `Dear ${currentData.name},\n\nWe regret to inform you that your request for lab utilization has been rejected. Please contact the Lab In-charge for further details.`
-        );
-    }, []);
-
-    const performApprovalStep = useCallback((fromLevel: ApprovalStatus) => {
-        const currentData = formDataRef.current;
-        if (!currentData) return;
-
-        const submissionDetails = formatSubmissionDetails(currentData);
-
-        if (fromLevel === ApprovalStatus.PENDING_SUPERVISOR) {
-            setApprovalStatus(ApprovalStatus.PENDING_INCHARGE);
-            addSimulatedEmail(
-                LAB_INCHARGE.email,
-                `Action Required: Lab Approval for ${currentData.name}`,
-                `Dear ${LAB_INCHARGE.name},\n\nSupervisor ${currentData.supervisor} has approved the lab utilization request from ${currentData.name}. Your final approval is now required.${submissionDetails}`,
-                {
-                    onApprove: () => performApprovalStep(ApprovalStatus.PENDING_INCHARGE),
-                    onReject: handleReject,
-                    label: 'Lab In-charge'
-                }
-            );
-        } else if (fromLevel === ApprovalStatus.PENDING_INCHARGE) {
-            const isOvernightOrWeekend = currentData.selectedSlots.some(slot => 
-                slot.type === 'Overnight' || 
-                slot.day === 'Saturday' || 
-                slot.day === 'Sunday'
-            );
-            const isConsultancy = currentData.researcherType === 'Consultant';
-
-            if (isOvernightOrWeekend || isConsultancy) {
-                setApprovalStatus(ApprovalStatus.PENDING_HOD);
-                addSimulatedEmail(
-                    HOD.email,
-                    `Action Required: Program Director Approval for ${currentData.name}`,
-                    `Dear ${HOD.name},\n\nThis special request (Consultancy/Overnight/Weekend) from ${currentData.name} (PRN: ${currentData.prn}) has been approved by the Supervisor and Lab In-charge. Your final sanction is required.${submissionDetails}`,
-                    {
-                        onApprove: () => performApprovalStep(ApprovalStatus.PENDING_HOD),
-                        onReject: handleReject,
-                        label: 'Program Director'
-                    }
-                );
-            } else {
-                setApprovalStatus(ApprovalStatus.APPROVED);
-                addSimulatedEmail(
-                    currentData.email,
-                    `CONFIRMED: Lab Booking Approved`,
-                    `Dear ${currentData.name},\n\nYour request for ${currentData.selectedSlots[0].type} on ${currentData.selectedSlots[0].date} has been fully approved. Please follow all safety protocols.${submissionDetails}`
-                );
-            }
-        } else if (fromLevel === ApprovalStatus.PENDING_HOD) {
-            setApprovalStatus(ApprovalStatus.APPROVED);
-            addSimulatedEmail(
-                currentData.email,
-                `CONFIRMED: Lab Booking Approved (Special Request)`,
-                `Dear ${currentData.name},\n\nYour special request has been sanctioned by the Program Director. Your booking for ${currentData.selectedSlots[0].date} is now confirmed.${submissionDetails}`
-            );
-        }
-    }, [handleReject]);
-
-    const addSimulatedEmail = (to: string, subject: string, body: string, actions?: EmailData['actions']) => {
-        const newEmail: EmailData = {
-            id: Math.random().toString(36).substr(2, 9),
+    const addNotice = (to: string, subject: string, body: string) => {
+        const notice: EmailData = {
+            id: Math.random().toString(36).slice(2, 11),
             from: 'ctl@mitwpu.edu.in',
             to,
             subject,
             body,
             timestamp: new Date(),
-            actions
         };
-        setSentEmails(prev => [...prev, newEmail]);
-        
-        const timeout = actions ? 20000 : 10000;
-        setTimeout(() => {
-            setSentEmails(prev => prev.filter(e => e.id !== newEmail.id));
-        }, timeout);
+        setSentEmails(prev => [...prev, notice]);
+        setTimeout(() => setSentEmails(prev => prev.filter(e => e.id !== notice.id)), 12000);
     };
+
+    // Real approvals happen over email now, so the app polls for the outcome.
+    useEffect(() => {
+        if (!formSubmitted || !bookingId || !isLive) return;
+        if (approvalStatus === ApprovalStatus.APPROVED || approvalStatus === ApprovalStatus.REJECTED) return;
+
+        const tick = async () => {
+            const result = await getBookingStatus(bookingId);
+            if (result.ok && result.code) setApprovalStatus(CODE_TO_STATUS[result.code]);
+        };
+        const timer = setInterval(tick, 20000);
+        return () => clearInterval(timer);
+    }, [formSubmitted, bookingId, approvalStatus]);
+
+    // Slots already taken by other people, loaded from the server.
+    useEffect(() => {
+        if (!isLive) return;
+        fetchBookedSlotKeys().then(keys => {
+            if (keys.length) setBookedSlots(prev => new Set([...prev, ...keys]));
+        });
+    }, []);
 
     const handleStartBooking = () => {
         setView('BOOKING');
@@ -271,40 +231,42 @@ const App: React.FC = () => {
         setSelectedSlots([]);
     }, []);
 
-    const handleSubmit = useCallback((data: Omit<FormData, 'commencement' | 'completion' | 'preferredTime'>) => {
+    const handleSubmit = useCallback(async (data: Omit<FormData, 'commencement' | 'completion' | 'preferredTime'>) => {
         if (selectedSlots.length === 0) return;
 
         setIsSubmitting(true);
-        setTimeout(() => {
-            const fullFormData = { ...data, selectedSlots };
-            setFormData(fullFormData);
-            setApprovalStatus(ApprovalStatus.PENDING_SUPERVISOR);
-            setFormSubmitted(true);
-            setIsSubmitting(false);
-            
-            setBookedSlots(prev => {
-                const newBooked = new Set(prev);
-                selectedSlots.forEach(slot => newBooked.add(getSlotKey(slot)));
-                return newBooked;
-            });
+        setSubmitError(null);
 
-            const submissionDetails = formatSubmissionDetails(fullFormData);
+        const fullFormData = { ...data, selectedSlots };
+        const result = await submitBooking(fullFormData as any);
 
-            // Initial email to Supervisor
-            addSimulatedEmail(
-                data.supervisorEmail,
-                `Action Required: Lab Approval for ${data.name}`,
-                `Dear ${data.supervisor},\n\nStudent ${data.name} (PRN: ${data.prn}) has requested to use the Concrete Technology Lab for ${selectedSlots[0].type} on ${selectedSlots[0].date}. Please review and approve this request.${submissionDetails}`,
-                {
-                    onApprove: () => performApprovalStep(ApprovalStatus.PENDING_SUPERVISOR),
-                    onReject: () => handleReject(),
-                    label: 'Supervisor'
-                }
-            );
+        setIsSubmitting(false);
 
-            window.scrollTo(0, 0);
-        }, 1000);
-    }, [selectedSlots, handleReject, performApprovalStep]);
+        if (!result.ok) {
+            setSubmitError(result.error || 'Could not submit your request. Please try again.');
+            return;
+        }
+
+        setBookingId(result.id ?? null);
+        setFormData(fullFormData);
+        setApprovalStatus(result.code ? CODE_TO_STATUS[result.code] : ApprovalStatus.PENDING_SUPERVISOR);
+        setFormSubmitted(true);
+
+        setBookedSlots(prev => {
+            const newBooked = new Set(prev);
+            selectedSlots.forEach(slot => newBooked.add(getSlotKey(slot)));
+            return newBooked;
+        });
+
+        addNotice(
+            data.supervisorEmail,
+            `Action Required: Lab Approval for ${data.name}`,
+            `An approval request has been emailed to ${data.supervisor}. You will be notified by email at every stage.` +
+            (result.id ? `\n\nReference: ${result.id}` : '')
+        );
+
+        window.scrollTo(0, 0);
+    }, [selectedSlots]);
 
     const renderView = () => {
         if (view === 'HOME') {
@@ -404,8 +366,7 @@ const App: React.FC = () => {
                     <ApprovalStatusDisplay 
                         formData={formData} 
                         status={approvalStatus}
-                        onApprove={performApprovalStep}
-                        onReject={handleReject}
+                        bookingId={bookingId}
                         onReset={handleReset}
                     />
                 ) : (
@@ -416,6 +377,12 @@ const App: React.FC = () => {
                             bookedSlots={bookedSlots}
                         />
                         <div id="form-section">
+                            {submitError && (
+                                <div className="mt-6 p-4 bg-red-50 border-l-4 border-red-500 rounded-r-lg">
+                                    <h3 className="font-semibold text-red-800">Submission failed</h3>
+                                    <p className="text-sm text-red-700 mt-1">{submitError}</p>
+                                </div>
+                            )}
                             {selectedSlots.length > 0 && (
                                 <Form 
                                     onSubmit={handleSubmit} 
